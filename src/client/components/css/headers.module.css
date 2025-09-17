@@ -1,0 +1,72 @@
+.landPageHeader{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 10vh;
+    background: #0f0f0f;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap-reverse;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+    -webkit-box-shadow: 0px 8px 24px -6px rgba(255,104,255,0.19); 
+    box-shadow: 0px 8px 24px -6px rgba(255,104,255,0.19);
+}
+
+
+.landPageHeader > div:nth-child(1){
+    position: relative;
+    width: auto;
+    height: auto;
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+.landPageHeader > div:nth-child(1) > img {
+    position: relative;
+    width: 3vw;
+}
+.landPageHeader > div:nth-child(1) > div {
+    position: relative;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    text-align: left;
+    margin-left: 1vw;
+}
+.landPageHeader > div:nth-child(1) > div > h1{
+    color: snow;
+    font-size: 2.4vh;
+}
+.landPageHeader > div:nth-child(1) > div > p{
+    color: lightgray;
+    font-size: 2vh;
+    margin-top: 0.25vh;
+}
+
+.landPageHeader nav{
+    position: relative;
+    height: auto;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    gap: 2vw;
+}
+.landPageHeader nav a{
+    font-size: 2.2vh;
+    color: lightgray;
+    cursor: pointer;
+}
+.landPageHeader nav a:hover{
+    color: #666c9e;
+}
+
+.landPageHeader > div:nth-child(2){
+    position: relative;
+    height: auto;
+}

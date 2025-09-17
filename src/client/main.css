@@ -1,0 +1,51 @@
+* {margin: 0;}
+
+html,body,#root{
+    height: 100%;
+    width: 100vw;
+    background: #0f0f0f;
+}
+
+@font-face {
+    font-family: sfPro-Display-Semibold;
+    src: url('@fontAssets/SF-Pro-Display-Semibold.otf');
+    font-style: normal;
+}
+
+@font-face {
+    font-family: sfPro-Display-Regular;
+    src: url('@fontAssets/SF-Pro-Display-Regular.otf');
+    font-style: normal;
+}
+
+@font-face {
+    font-family: sfPro-Text-Semibold;
+    src: url('@fontAssets/SF-Pro-Text-Semibold.otf');
+    font-style: normal;
+}
+@font-face {
+    font-family: sfPro-Text-Regular;
+    src: url('@fontAssets/SF-Pro-Text-Regular.otf');
+    font-style: normal;
+}
+@font-face {
+    font-family: sfPro-Text-RegularItalic;
+    src: url('@fontAssets/SF-Pro-Text-RegularItalic.otf');
+    font-style: normal;
+}
+
+.sfPro-Display-Semibold{
+    font-family: "sfPro-Display-Semibold";
+}
+.sfPro-Display-Regular{
+    font-family: "sfPro-Display-Regular";
+}
+.sfPro-Text-Semibold{
+    font-family: "sfPro-Text-Semibold";
+}
+.sfPro-Text-Regular{
+    font-family: "sfPro-Text-Regular";
+}
+.sfPro-Text-RegularItalic{
+    font-family: "sfPro-Text-RegularItalic";
+}

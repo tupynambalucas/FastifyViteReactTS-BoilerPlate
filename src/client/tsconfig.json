@@ -1,0 +1,26 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "jsx": "react-jsx",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "noEmit": true,    
+    "target": "ES2023",
+    "baseUrl": ".",
+    "paths": {
+      "@reactComponents/*": ["components/react/*"],
+      "@cssComponents/*": ["components/css/*"],
+      "@threeComponents/*": ["components/three/*"],
+      "@threeAssets/*": ["assets/three/*"],
+      "@tupynambaAssets/*": ["assets/tupynamba/*"],
+      "@componentAssets/*": ["assets/components/*"],
+      "@midiaAssets/*": ["assets/midia/*"],
+      "@type/*": ["types/*"],
+      "@fontAssets/*": ["assets/fonts/*"]
+    }
+  },
+  "include": ["**/*", "../types/vite-env.d.ts"], // Inclui todos os arquivos na pasta
+  "exclude": [] // Nenhuma exclusão específica
+}
