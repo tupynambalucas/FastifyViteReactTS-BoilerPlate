@@ -1,6 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
 import type { FC } from 'react';
-// Assuming you have an alias set up for @reactComponents and @type
 
 interface LandProps {}
 

@@ -1,25 +1,23 @@
+import type { FC } from 'react';
 
-// import { useRouteContext } from '@tupynamba/fastifyvite-react-renderer/client'
-// import Login from '@reactComponents/auth/login'
-// import Register from '@reactComponents/auth/register'
+interface AdminProps {}
 
-
-let divStyle = {
-  display: 'flex',
-  flexDirection: 'row',
-  flexWrap: 'nowrap'
-}
-
-
-export const serverOnly = true
-
-export default function Admin () {
-
+const Admin: FC<AdminProps> = () => {
   return (
     <>
-      <div>
-        <h1>Oiiiii</h1>
+      <div 
+        style={{
+          height: '100%',
+          width: '100%',
+          overflow: 'auto',
+          zIndex: '2',
+          position: 'absolute'
+        }}
+      >
+        <h1>AAAAAAAAAAAAA</h1>
       </div>
     </>
-  )
+  );
 }
+
+export default Admin;
