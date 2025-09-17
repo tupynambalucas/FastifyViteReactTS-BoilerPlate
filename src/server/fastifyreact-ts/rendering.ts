@@ -100,7 +100,6 @@ export function createRenderFunction({ routes, create }: { routes: AppRoute[], c
 }
 
 async function createStreamingResponse(req: FastifyRequest, routes: AppRoute[]): Promise<RenderResult> {
-  console.log(req.route)
   if (!req.route.app) {
     throw new Error('Route application element (`app`) is not available on the request context.')
   }

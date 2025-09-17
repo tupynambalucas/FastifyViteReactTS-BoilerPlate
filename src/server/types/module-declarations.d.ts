@@ -10,4 +10,4 @@ declare module '@fastify/vite/utils' {
 declare module '@fastify/vite/plugin';
 
 
-declare module '@tupynamba/fastifyvite-react-renderer/plugin';
+declare module '@tupynamba/fastifyreact-ts/plugin';

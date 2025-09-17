@@ -49,7 +49,7 @@ export async function initServer() {
     // Use the calculated __dirname for a reliable path.
     root: resolve(import.meta.dirname, '..', '..'),
     distDir: import.meta.dirname,
-    renderer: '@tupynamba/fastifyvite-react-renderer',
+    renderer: '@tupynamba/fastifyreact-ts',
   });
   try {
     await server.vite.ready();

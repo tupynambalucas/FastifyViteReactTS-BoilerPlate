@@ -1,5 +1,5 @@
-import { createRoutes } from '@tupynamba/fastifyvite-react-renderer/server'
-// console.log('Routes and create function imported');
+import { createRoutes } from '@tupynamba/fastifyreact-ts/server'
+
 export default {
   routes: createRoutes(import('./routes')),
   create: import('./create'),

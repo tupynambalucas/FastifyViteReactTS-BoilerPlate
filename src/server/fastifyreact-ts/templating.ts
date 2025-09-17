@@ -49,7 +49,7 @@ export async function createHtmlTemplates(source: string, config: AppConfig): Pr
       afterElement: await createHtmlTemplateFunction(serverOnlyParts[1]),
     },
   }
-  // console.log(result)
+
   return result
 }
 

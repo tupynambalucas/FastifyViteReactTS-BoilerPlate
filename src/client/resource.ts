@@ -1,6 +1,6 @@
 const clientFetchMap = new Map<string, any>()
 const clientResourceMap = new Map<string, any>()
-console.log('Resource module loaded');
+
 export function waitResource(
   path: string,
   id: string,

@@ -4,7 +4,7 @@
   },
   "type": "module",
   "main": "index.js",
-  "name": "@tupynamba/fastifyvite-react-renderer",
+  "name": "@tupynamba/fastifyreact-ts",
   "description": "Custom @fastify/vite renderer for React",
   "version": "1.1.0",
   "files": [

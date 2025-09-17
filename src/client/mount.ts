@@ -1,7 +1,7 @@
 // client/mount.ts
 import { type ReactElement } from 'react'
 import { createRoot, hydrateRoot } from 'react-dom/client'
-import { hydrateRoutes } from '@tupynamba/fastifyvite-react-renderer/client'
+import { hydrateRoutes } from '@tupynamba/fastifyreact-ts/client'
 import { createHead, type Unhead } from '@unhead/react/client'
 import create from './create.tsx'
 import * as context from './context.ts'

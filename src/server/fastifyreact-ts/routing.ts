@@ -90,7 +90,7 @@ export async function prepareClient(entries: ClientEntries, _: unknown): Promise
     const { default: create } = await (client.create as unknown as Promise<{ default: CreateAppFunction }>)
     client.create = create
   }
-  console.log(client.routes)
+
   return client as ClientModule
 }
 
@@ -120,7 +120,7 @@ export async function createRoute(
     await route.configure(scope)
   }
   const routeMap = Object.fromEntries((client.routes as ClientRoute[]).map(_ => [_.path, _]))
-  // console.log(routeMap)
+
   const context = client.context instanceof Promise
     ? await client.context
     : client.context
@@ -163,7 +163,7 @@ export async function createRoute(
   }
 
   if (route.onEnter) {
-    console.log('User entered Route')
+
     preHandler.push(async (req) => {
       try {
         if (!req.route.data) {
@@ -196,7 +196,7 @@ export async function createRoute(
     const htmlFunction = await createHtmlFunction(htmlSource, scope, config.vite)
     handler = (_, reply) => htmlFunction.call(reply)
   }
-  // console.log(route)
+
   const routePath = route.path.replace(/:[^+]+\+/, '*')
   scope.log.info(`Registering Route -> ${routePath}`)
   unshiftHook(route, 'onRequest', onRequest)
@@ -209,7 +209,7 @@ export async function createRoute(
     handler,
     ...route,
   })
-  // console.log(`Scope Routes: ${scope.route}`)
+
   if (route.getData) {
     scope.get(`/-/data${routePath}`, {
       onRequest,

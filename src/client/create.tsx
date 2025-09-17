@@ -1,4 +1,3 @@
-// console.log('Create function loaded');
 import { createUnhead } from 'unhead'
 import { UnheadProvider as ClientUnheadProvider } from '@unhead/react/client'
 import { UnheadProvider as ServerUnheadProvider } from '@unhead/react/server?server'

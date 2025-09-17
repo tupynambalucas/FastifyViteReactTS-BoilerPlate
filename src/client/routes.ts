@@ -1,6 +1,5 @@
 import type { AppRouteDefinition } from './types/routes';
 
-// This is our new factory function
 function createAppRoute(definition: AppRouteDefinition): AppRouteDefinition & { toJSON: () => object } {
   return {
     ...definition,

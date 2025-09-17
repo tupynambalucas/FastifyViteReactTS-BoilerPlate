@@ -1,4 +1,3 @@
-console.log('Client File Loaded')
 import {
   createContext,
   useContext,
@@ -110,7 +109,6 @@ export async function hydrateRoutes(
 function memoImport(
   func: () => Promise<{ default: ComponentType<any> }>,
 ): () => Promise<{ default: ComponentType<any> }> {
-  console.log(func)
 
   // Using Symbols to create unique, non-conflicting property keys
   const kFuncExecuted = Symbol('kFuncExecuted')

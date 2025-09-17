@@ -2,10 +2,9 @@ import { defineConfig } from 'vite';
 import { resolve, join } from 'node:path';
 import viteReact from '@vitejs/plugin-react-swc';
 import viteFastify from '@fastify/vite/plugin';
-import viteFastifyReact from '@tupynamba/fastifyvite-react-renderer/plugin';
+import viteFastifyReact from '@tupynamba/fastifyreact-ts/plugin';
 import svgr from 'vite-plugin-svgr';
 
-console.log(resolve(import.meta.dirname, 'src', 'client'))
 export default defineConfig({
   root: join(import.meta.dirname, 'src', 'client'),
   plugins: [

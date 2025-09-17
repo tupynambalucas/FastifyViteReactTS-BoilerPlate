@@ -36,17 +36,14 @@ export function headerHeightAnimation (props: HeaderAnimationProps) {
         height: animation.height, // Target height
         duration: animation.duration, // Animation duration in seconds
         ease: "power2.inOut", // Easing function
-        onComplete: () => console.log('Height animation complete!')
     });
 }
 
 export function screenAnimation (props: ScreenAnimationProps) {
     const { ref } = props
     const elements = ref.querySelector('[data-animation]');
-    console.log(elements)
     if (ref.dataset.animation) {
         const animation = JSON.parse(ref.dataset.animation)
-        console.log(animation)
     }
 
     // The rest of your animation logic would go here.

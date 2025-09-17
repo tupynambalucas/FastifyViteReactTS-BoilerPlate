@@ -17,7 +17,6 @@ import { resolve } from 'node:path';
 
 const envPlugin: FastifyPluginAsync = async (server) => {
   const rootPath = server.getProjectRoot(); // Await the path in case it's async
-  console.log(resolve(rootPath));
 
   // The JSON schema defines the required environment variables.
   // Using 'as const' provides stricter type inference.

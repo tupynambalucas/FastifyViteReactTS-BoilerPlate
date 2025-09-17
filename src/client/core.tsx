@@ -7,7 +7,7 @@ import { proxy } from 'valtio'
 import {
   RouteContext,
   useRouteContext,
-} from '@tupynamba/fastifyvite-react-renderer/client'
+} from '@tupynamba/fastifyreact-ts/client'
 
 import { waitFetch, waitResource } from './resource'
 import layouts from './layouts'

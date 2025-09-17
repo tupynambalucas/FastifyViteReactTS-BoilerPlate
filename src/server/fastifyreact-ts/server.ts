@@ -111,7 +111,7 @@ export async function createRoutes(
 
           finalRoute.layout =
             routeModule.layout ?? routeDef.layout ?? 'default';
-          // console.log(finalRoute)
+
           return finalRoute;
         }),
       );

@@ -1,6 +1,6 @@
 {
   "type": "module",
-  "name": "tupynambalucas-website",
+  "name": "fastifyvite-react-ts-boilerplate",
   "author": {
     "name": "Tupynambá Lucas",
     "email": "tupynambalucas@gmail.com",
@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.1",
-    "@tupynamba/fastifyvite-react-renderer": "file:./src/server/react-renderer",
+    "@tupynamba/fastifyreact-ts": "file:./src/server/fastifyreact-ts",
     "@types/bcrypt": "^6.0.0",
     "@types/minipass": "^3.1.2",
     "@types/node": "^24.3.0",
