@@ -46,9 +46,10 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.1",
     "@tupynamba/fastifyreact-ts": "file:./src/server/fastifyreact-ts",
+    "@types/acorn": "^4.0.6",
     "@types/bcrypt": "^6.0.0",
     "@types/minipass": "^3.1.2",
-    "@types/node": "^24.3.0",
+    "@types/node": "^24.5.1",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@types/react-router-dom": "^5.3.3",

@@ -1,64 +1,93 @@
+// core.tsx
+
+import { type ComponentType, type ReactNode, useEffect, Suspense } from 'react'
 import { createPath } from 'history'
-import { useEffect } from 'react'
-import { BrowserRouter, StaticRouter, useLocation } from 'react-router'
+import { BrowserRouter, StaticRouter, useLocation } from 'react-router-dom'
 import { proxy } from 'valtio'
-import { RouteContext, useRouteContext } from '@fastify/react/client'
-import layouts from '$app/layouts.js'
-import { waitFetch, waitResource } from '$app/resource.js'
+import {
+  RouteContext,
+  useRouteContext,
+} from '@tupynamba/fastifyreact-ts/client'
+
+import { waitFetch, waitResource } from './resource'
+import layouts from './layouts'
+import type { AppRouteProps, AppRouteCtx, HydrationCtx } from './types/routes'
+import type { ServerInternals } from './types/runtime'
+import type { Unhead } from '@unhead/react/client'
+
 
 export const isServer = import.meta.env.SSR
-export const Router = isServer ? StaticRouter : BrowserRouter
 
+export function Router({ children, url }: { children: ReactNode, url?: string }) {
+  if (isServer) {
+    return <StaticRouter location={url ?? '/'}>{children}</StaticRouter>
+  }
+  return <BrowserRouter>{children}</BrowserRouter>
+}
+
+// --- Helpers ---
 let serverActionCounter = 0
-
-export function createServerAction(name) {
+export function createServerAction(name?: string): string {
   return `/-/action/${name ?? serverActionCounter++}`
 }
 
-export function useServerAction(action, options = {}) {
-  if (import.meta.env.SSR) {
-    const { req, server } = useRouteContext()
+// --- Hook: useServerAction ---
+export function useServerAction<T = unknown>(
+  action: string,
+  options: RequestInit = {},
+): T {
+  if (isServer) {
+    const ctx = useRouteContext();
+    const serverContext = ctx as HydrationCtx & AppRouteCtx & ServerInternals;
+    const { req, server } = serverContext;
+
     req.route.actionData[action] = waitFetch(
       `${server.serverURL}${action}`,
       options,
       req.fetchMap,
     )
-    return req.route.actionData[action]
+    return req.route.actionData[action] as T
   }
-  const { actionData } = useRouteContext()
-  if (actionData[action]) {
-    return actionData[action]
+
+  const bag = window.route.actionData
+  if (bag[action]) {
+    return bag[action] as T
   }
-  actionData[action] = waitFetch(action, options)
-  return actionData[action]
+  bag[action] = waitFetch(action, options)
+  return bag[action] as T
 }
 
-export function AppRoute({ ctxHydration, ctx, children }) {
-  // If running on the server, assume all data
-  // functions have already ran through the preHandler hook
+// --- AppRoute component ---
+export function AppRoute({ ctxHydration, ctx, children }: AppRouteProps) {
+  // --- Server rendering path ---
   if (isServer) {
-    const Layout = layouts[ctxHydration.layout ?? 'default']
+    const Layout =
+      (layouts[(ctxHydration.layout ?? 'default') as keyof typeof layouts] as ComponentType<{
+        children?: ReactNode
+      }>) ?? (layouts.default as ComponentType<{ children?: ReactNode }>)
+
+    // If the route is clientOnly, replace children with a Suspense placeholder.
+    // This ensures the Layout (and its <main> tag) is still rendered.
+    const finalChildren = ctxHydration.clientOnly
+      ? <Suspense fallback={null}>{null}</Suspense>
+      : children;
+
     return (
       <RouteContext.Provider
         value={{
           ...ctx,
           ...ctxHydration,
-          state: isServer
-            ? ctxHydration.state ?? {}
-            : proxy(ctxHydration.state ?? {}),
+          state: ctxHydration.state ?? {},
         }}
       >
-        <Layout>{children}</Layout>
+        <Layout>{finalChildren}</Layout>
       </RouteContext.Provider>
     )
   }
-  // Note that on the client, window.route === ctxHydration
 
-  // Indicates whether or not this is a first render on the client
+  // --- Client rendering path ---
   ctx.firstRender = window.route.firstRender
 
-  // If running on the client, the server context data
-  // is still available, hydrated from window.route
   if (ctx.firstRender) {
     ctx.data = window.route.data
     ctx.head = window.route.head
@@ -70,38 +99,32 @@ export function AppRoute({ ctxHydration, ctx, children }) {
   const location = useLocation()
   const path = createPath(location)
 
-  // When the next route renders client-side,
-  // force it to execute all URMA hooks again
-  // biome-ignore lint/correctness/useExhaustiveDependencies: I'm inclined to believe you, Biome, but I'm not risking it.
   useEffect(() => {
     window.route.firstRender = false
     window.route.actionData = {}
   }, [location])
 
-  // If we have a getData function registered for this route
   if (!ctx.data && ctx.getData) {
     try {
       const { pathname, search } = location
-      // If not, fetch data from the JSON endpoint
       ctx.data = waitFetch(`/-/data${pathname}${search}`)
     } catch (status) {
-      // If it's an actual error...
       if (status instanceof Error) {
         ctx.error = status
       }
-      // If it's just a promise (suspended state)
       throw status
     }
   }
 
-  // Note that ctx.loader() at this point will resolve the
-  // memoized module, so there's barely any overhead
-
   if (!ctx.firstRender && ctx.getMeta) {
     const updateMeta = async () => {
       const { getMeta } = await ctx.loader()
-      ctx.head = await getMeta(ctx)
-      ctxHydration.useHead.push(ctx.head)
+      if (getMeta) {
+        ctx.head = await getMeta(ctx as AppRouteCtx)
+        ;(ctxHydration.useHead as Unhead<object>)?.push(ctx.head)
+      } else {
+        console.warn("Loader did not provide getMeta function for path:", path);
+      }
     }
     waitResource(path, 'updateMeta', updateMeta)
   }
@@ -109,25 +132,31 @@ export function AppRoute({ ctxHydration, ctx, children }) {
   if (!ctx.firstRender && ctx.onEnter) {
     const runOnEnter = async () => {
       const { onEnter } = await ctx.loader()
-      const updatedData = await onEnter(ctx)
-      if (!ctx.data) {
-        ctx.data = {}
+      if (onEnter) {
+        const updatedData = await onEnter(ctx as AppRouteCtx)
+        if (!ctx.data) {
+          ctx.data = {}
+        }
+        Object.assign(ctx.data, updatedData)
+      } else {
+        console.warn("Loader did not provide onEnter function for path:", path);
       }
-      Object.assign(ctx.data, updatedData)
     }
     waitResource(path, 'onEnter', runOnEnter)
   }
 
-  const Layout = layouts[ctx.layout ?? 'default']
-
+  const Layout =
+    (layouts[(ctxHydration.layout ?? 'default') as keyof typeof layouts] as ComponentType<{
+      children?: ReactNode
+    }>) ?? (layouts.default as ComponentType<{ children?: ReactNode }>)
+  
   return (
     <RouteContext.Provider
       value={{
         ...ctxHydration,
         ...ctx,
-        state: isServer
-          ? ctxHydration.state ?? {}
-          : proxy(ctxHydration.state ?? {}),
+        // proxy only on the client
+        state: proxy(ctxHydration.state ?? {}),
       }}
     >
       <Layout>{children}</Layout>

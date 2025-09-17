@@ -1,7 +1,7 @@
-import { createRoutes } from '@fastify/react/server'
+import { createRoutes } from '@tupynamba/fastifyreact-ts/server'
 
 export default {
-  routes: createRoutes(import('$app/routes.ts')),
-  create: import('$app/create.tsx'),
-  context: import('$app/context.ts'),
+  routes: createRoutes(import('./routes')),
+  create: import('./create'),
+  context: import('./context'),
 }

@@ -1,5 +1,19 @@
+import type { SourceDescription } from 'rollup'
 
-export function generateStores(keys) {
+// Define a type for the route context for better type safety
+interface RouteContext {
+  state: Record<string, any>;
+  actions?: Record<string, Record<string, (...args: any[]) => any>>;
+}
+
+// Define the structure of the proxy object
+interface StoreProxy {
+  key: string;
+  wrappers: Record<string, (...args: any[]) => any>;
+  context: RouteContext | null;
+}
+
+export function generateStores(keys: string[]): SourceDescription {
   let code = `
 import { useRouteContext } from '@fastify/react/client'
 

@@ -1,19 +1,19 @@
-import { 
-  UnheadProvider as ClientUnheadProvider 
-} from '@unhead/react/client'
-import { 
-  UnheadProvider as ServerUnheadProvider 
-} from '@unhead/react/server?server'
+import { createUnhead } from 'unhead'
+import { UnheadProvider as ClientUnheadProvider } from '@unhead/react/client'
+import { UnheadProvider as ServerUnheadProvider } from '@unhead/react/server?server'
+import Root from './root'
+import type { RootProps } from './types/routes'
 
-import Root from '$app/root.jsx'
+export default function create(props: RootProps) {
+  const isServer = import.meta.env.SSR
 
-export default function create({ url, ...serverInit }) {
-  const UnheadProvider = import.meta.env.SSR
-    ? ServerUnheadProvider
-    : ClientUnheadProvider
+  const UnheadProvider = isServer ? ServerUnheadProvider : ClientUnheadProvider
+  const head = createUnhead()
+
   return (
-    <UnheadProvider value={serverInit.ctxHydration.useHead}>
-      <Root url={url} {...serverInit} />
+    <UnheadProvider head={head}>
+      {/* It simply renders the Root component */}
+      <Root {...props} />
     </UnheadProvider>
   )
 }

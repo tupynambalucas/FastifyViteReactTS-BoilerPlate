@@ -1,5 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert'
+import { parseStateKeys } from './parsers.js'
 
 test('parseStateKeys', (t) => {
   const a = `export function state () {
@@ -10,7 +11,7 @@ test('parseStateKeys', (t) => {
       todoList: null,
     }
   }`
-  assert.equal(['user', 'todoList'], parseStateKeys(a))
+  assert.deepStrictEqual(parseStateKeys(a), ['user', 'todoList'])
 
   const b = `export const state = () => ({
     user: {
@@ -23,6 +24,6 @@ test('parseStateKeys', (t) => {
 
     }
   }
-  `;
-  assert.equal(['user', 'todoList'], parseStateKeys(b))
+  `
+  assert.deepStrictEqual(parseStateKeys(b), ['user', 'todoList'])
 })
